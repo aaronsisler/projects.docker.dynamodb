@@ -1,15 +1,4 @@
-# version: "3.0"
-
-# services:
-#   localstack:
-#     image: localstack/localstack:latest
-#     environment:
-#       - AWS_DEFAULT_REGION=us-east-1
-#       - EDGE_PORT=4569
-#       - SERVICES=dynamodb
-#     ports:
-#       - 4569:4569
-#       - 9000:9000
+version: "3.3"
 
 services:
   dynamo-db-local:
@@ -18,6 +7,7 @@ services:
     ports:
       - "8000:8000"
     command: " -jar DynamoDBLocal.jar -sharedDb -dbPath ."
+
   aws-cli:
     image: amazon/aws-cli
     depends_on:
@@ -34,40 +24,3 @@ services:
          sh $$script_name
        done
       '
-
-  # version: "3.3"
-
-  # volumes:
-  #   localstack:
-
-  # services:
-  #   localstack:
-  #     image: localstack/localstack:latest
-  #     ports:
-  #       - 8080:8080 # webui
-  #       - 4569:4569 # dynamodb
-  #     environment:
-  #       # - DATA_DIR=/tmp/localstack/data
-  #       - DEBUG=1
-  #       - AWS_DEFAULT_REGION=us-east-1
-  #       # - DEFAULT_REGION=ap-southeast-2
-  #       # - DOCKER_HOST=unix:///var/run/docker.sock
-  #       - PORT_WEB_UI=8080
-  #       - SERVICES=dynamodb
-  # volumes:
-  #   - /var/run/docker.sock:/var/run/docker.sock
-  #   - localstack:/tmp/localstack/data
-
-  # setup-resources:
-  #   image: mesosphere/aws-cli
-  #   environment:
-  #     - AWS_ACCESS_KEY_ID=dummyaccess
-  #     - AWS_SECRET_ACCESS_KEY=dummysecret
-  #     - AWS_DEFAULT_REGION=us-east-1
-  #   entrypoint: /bin/sh -c
-  #   command: >
-  #     "
-  #       # Needed so all localstack components will startup correctly (i'm sure there's a better way to do this)
-  #       sleep 10;
-  #       aws dynamodb create-table --endpoint-url=http://localhost:4569 --table-name SUPER_TABLE_NAME --attribute-definitions AttributeName=key_selector,AttributeType=S  --key-schema AttributeName=key_selector,KeyType=HASH  --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5;
-  #     "

@@ -4,11 +4,11 @@ aws configure set region "us-east-1"
 
 aws dynamodb create-table \
 --endpoint-url=http://dynamo-db-local:8000 \
---table-name SUPER_TABLE_NAME \
+--table-name SUPER_TABLE \
 --attribute-definitions \
-AttributeName=key_selector,AttributeType=S  \
-AttributeName=range_selector,AttributeType=N  \
+AttributeName=lastName,AttributeType=S  \
+AttributeName=firstName,AttributeType=S  \
 --key-schema \
-AttributeName=key_selector,KeyType=HASH  \
-AttributeName=range_selector,KeyType=RANGE  \
+AttributeName=lastName,KeyType=HASH  \
+AttributeName=firstName,KeyType=RANGE  \
 --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5;
